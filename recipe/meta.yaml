@@ -36,9 +36,14 @@ test:
 about:
   home: https://github.com/langchain-ai/langchain
   dev_url: https://github.com/langchain-ai/langchain/tree/master/libs/text-splitters
+  doc_url: https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/
   summary: LangChain text splitting utilities
+  description: |
+    LangChain Text Splitters contains utilities for splitting
+    into chunks a wide variety of text documents.
   license: MIT
   license_file: LICENSE
+  license_family: MIT
 
 extra:
   recipe-maintainers:
