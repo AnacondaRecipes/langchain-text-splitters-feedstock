@@ -1,0 +1,27 @@
+From bf5e6bad4d952a933954673626d3b8d218009c73 Mon Sep 17 00:00:00 2001
+From: Patryk Kups <pkups@anaconda.com>
+Date: Mon, 6 Oct 2025 10:14:03 +0200
+Subject: [PATCH] path
+
+---
+ tests/unit_tests/conftest.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/unit_tests/conftest.py b/tests/unit_tests/conftest.py
+index ad5ea62..bef5d7c 100644
+--- a/tests/unit_tests/conftest.py
++++ b/tests/unit_tests/conftest.py
+@@ -42,8 +42,8 @@ def pytest_collection_modifyitems(config: Config, items: Sequence[Function]) ->
+     # Used to avoid repeated calls to `util.find_spec`
+     required_pkgs_info: dict[str, bool] = {}
+ 
+-    only_extended = config.getoption("--only-extended") or False
+-    only_core = config.getoption("--only-core") or False
++    only_extended = True
++    only_core = False
+ 
+     if only_extended and only_core:
+         msg = "Cannot specify both `--only-extended` and `--only-core`."
+-- 
+2.39.5 (Apple Git-154)
+
