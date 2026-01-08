@@ -36,13 +36,9 @@ test:
   requires:
     - pip
     - pytest >=8.0.0,<9.0.0
-    - pytest-mock >=3.10.0,<4.0.0
-    - pytest-socket >=0.7.0,<1.0.0
-    - pytest-xdist >=3.6.1,<4.0.0
     - freezegun>=1.2.2,<2.0.0
     - nltk >=3.9.1,<4.0.0
     - spacy >=3.8.7,<4.0.0  # [py<314]
-    - thinc >=8.3.6,<9.0.0  # [py<314]
     # transformers is not available for python 3.14
     - transformers >=4.51.3,<5.0.0  # [py<314]
     - sentence-transformers >=3.0.1,<4.0.0  # [py<314]
