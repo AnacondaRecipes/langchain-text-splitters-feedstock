@@ -36,15 +36,29 @@ test:
   requires:
     - pip
     - pytest >=8.0.0,<9.0.0
+    - pytest-mock >=3.10.0,<4.0.0
+    - pytest-socket >=0.7.0,<1.0.0
+    - pytest-xdist >=3.6.1,<4.0.0
     - freezegun>=1.2.2,<2.0.0
     - nltk >=3.9.1,<4.0.0
+    - spacy >=3.8.7,<4.0.0  # [py<314]
+    - thinc >=8.3.6,<9.0.0  # [py<314]
+    # transformers is not available for python 3.14
+    - transformers >=4.51.3,<5.0.0  # [py<314]
+    - sentence-transformers>=3.0.1,<4.0.0  # [py<314]
+    - tiktoken >=0.8.0,<1.0.0  # [py<314]
+    - scipy >=1.7.0,<2.0.0  # [py<313]
+    - scipy >=1.14.1,<2.0.0  # [py>=313]
+    # 'en-core-web-sm' from spacy-models is required for the tests.
+    # - spacy-models
     # lxml and bs4 are not mentioned in the dependencies, but it is required for the tests
     - bs4
     - lxml
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v tests
+    - pytest -v tests  # [py<314]
+    - pytest -v tests --ignore=tests/integration_tests/test_text_splitter.py  # [py==314]
 
 about:
   home: https://github.com/langchain-ai/langchain
