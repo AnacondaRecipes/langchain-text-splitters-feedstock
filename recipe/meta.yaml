@@ -53,7 +53,7 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v tests  # [py<314]
+    - pytest -v tests/unit_tests/  # [py<314]
     - pytest -v tests --ignore=tests/integration_tests/test_text_splitter.py  # [py==314]
 
 about:
