@@ -38,10 +38,11 @@ test:
     - pytest >=8.0.0,<9.0.0
     - freezegun>=1.2.2,<2.0.0
     - nltk >=3.9.1,<4.0.0
-    - spacy >=3.8.7,<4.0.0  # [py<314]
-    # transformers is not available for python 3.14
-    - transformers >=4.51.3,<5.0.0  # [py<314]
-    - sentence-transformers >=3.0.1,<4.0.0  # [py<314]
+    # Integration tests have dependency conflicts.
+    # - spacy >=3.8.7,<4.0.0  # [py<314]
+    ## transformers is not available for python 3.14
+    # - transformers >=4.51.3,<5.0.0  # [py<314]
+    # - sentence-transformers >=3.0.1,<4.0.0  # [py<314]
     # - tiktoken >=0.8.0,<1.0.0  # [py<314]
     # - scipy >=1.7.0,<2.0.0  # [py<313]
     # - scipy >=1.14.1,<2.0.0  # [py>=313]
