@@ -1,67 +1,69 @@
 {% set name = "langchain-text-splitters" %}
-{% set version = "0.3.11" %}
+{% set version = "1.1.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-','_') }}-{{ version }}.tar.gz
-  sha256: 7a50a04ada9a133bbabb80731df7f6ddac51bc9f1b9cab7fa09304d71d38a6cc
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-','_') }}-{{ version }}.tar.gz
+  sha256: 75e58acb7585dc9508f3cd9d9809cb14751283226c2d6e21fb3a9ae57582ca22
   patches:
     - patches/0001-update-conftest.patch
 
 build:
-  skip: true  # [py<39]
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  skip: true  # [py<310]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
     - python
-    - pdm-backend
+    - hatchling
     - pip
   run:
     - python
-    - langchain-core <2.0.0,>=0.3.75
+    - langchain-core >=1.2.0,<2.0.0
   run_constrained:
-    - mypy <1.18,>=1.17.1
-    - lxml-stubs <1.0.0,>=0.5.1
-    - types-requests <3.0.0.0,>=2.31.0.20240218
-    - tiktoken <1.0.0,>=0.8.0
+    # Extended dependencies,
+    # see https://github.com/langchain-ai/langchain/blob/master/libs/text-splitters/extended_testing_deps.txt,
+    # and https://github.com/langchain-ai/langchain/blob/langchain-text-splitters%3D%3D1.1.0/libs/text-splitters/pyproject.toml#L37
+    - lxml >=4.9.3,<7.0.0
+    - beautifulsoup4 >=4.13.5,<5.0.0
 
 test:
   source_files:
     - tests
   imports:
     - langchain_text_splitters
-    - langchain_text_splitters.base
-    - langchain_text_splitters.character
-    - langchain_text_splitters.html
-    - langchain_text_splitters.json
-    - langchain_text_splitters.jsx
-    - langchain_text_splitters.konlpy
-    - langchain_text_splitters.latex
-    - langchain_text_splitters.markdown
-    - langchain_text_splitters.nltk
-    - langchain_text_splitters.python
-    - langchain_text_splitters.sentence_transformers
-    - langchain_text_splitters.spacy
+  requires:
+    - pip
+    - pytest >=8.0.0,<9.0.0
+    - freezegun>=1.2.2,<2.0.0
+    - nltk >=3.9.1,<4.0.0
+    # Integration tests have dependency conflicts.
+    # - spacy >=3.8.7,<4.0.0  # [py<314]
+    ## transformers is not available for python 3.14
+    # - transformers >=4.51.3,<5.0.0  # [py<314]
+    # - sentence-transformers >=3.0.1,<4.0.0  # [py<314]
+    # - tiktoken >=0.8.0,<1.0.0  # [py<314]
+    # - scipy >=1.7.0,<2.0.0  # [py<313]
+    # - scipy >=1.14.1,<2.0.0  # [py>=313]
+    # 'en-core-web-sm' from spacy-models is required for the tests.
+    # - spacy-models
+    # lxml and bs4 are not mentioned in the dependencies, but it is required for the tests
+    - bs4
+    - lxml
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v tests
-  requires:
-    - pip
-    - pytest
-    - lxml
-    - bs4
-    - nltk
+    - pytest -v tests/unit_tests/  # [py<314]
+    - pytest -v tests --ignore=tests/integration_tests/test_text_splitter.py  # [py==314]
 
 about:
   home: https://github.com/langchain-ai/langchain
   dev_url: https://github.com/langchain-ai/langchain/tree/master/libs/text-splitters
-  doc_url: https://python.langchain.com/v0.1/docs/modules/data_connection/document_transformers/
+  doc_url: https://reference.langchain.com/python/langchain_text_splitters/
   summary: LangChain text splitting utilities
   description: |
     LangChain Text Splitters contains utilities for splitting
