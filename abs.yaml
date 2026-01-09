@@ -1,6 +1,2 @@
 build_env_vars:
   ANACONDA_ROCKET_ENABLE_PY314 : yes
-
-channels:
-  - https://staging.continuum.io/pbp/fs/langsmith-feedstock/pr10/1fbd706
-  - https://staging.continuum.io/pbp/fs/langchain-core-feedstock/pr9/0b9d4b9
