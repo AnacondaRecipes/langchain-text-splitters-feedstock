@@ -1,13 +1,13 @@
 {% set name = "langchain-text-splitters" %}
-{% set version = "1.1.0" %}
+{% set version = "1.1.2" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-','_') }}-{{ version }}.tar.gz
-  sha256: 75e58acb7585dc9508f3cd9d9809cb14751283226c2d6e21fb3a9ae57582ca22
+  sha256: 782a723db0a4746ac91e251c7c1d57fd23636e4f38ed733074e28d7a86f41627
   patches:
     - patches/0001-update-conftest.patch
 
@@ -18,17 +18,18 @@ build:
 
 requirements:
   host:
+    - pip
     - python
     - hatchling
-    - pip
   run:
     - python
-    - langchain-core >=1.2.0,<2.0.0
+    - langchain-core >=1.2.31,<2.0.0
   run_constrained:
-    # Extended dependencies,
-    # see https://github.com/langchain-ai/langchain/blob/master/libs/text-splitters/extended_testing_deps.txt,
-    # and https://github.com/langchain-ai/langchain/blob/langchain-text-splitters%3D%3D1.1.0/libs/text-splitters/pyproject.toml#L37
-    - lxml >=4.9.3,<7.0.0
+    # typing
+    - mypy >=1.19.1,<1.20.0
+    - lxml-stubs >=0.5.1,<1.0.0
+    - types-requests >=2.31.0.20240218,<3.0.0.0
+    - tiktoken >=0.8.0,<1.0.0
     - beautifulsoup4 >=4.13.5,<5.0.0
 
 test:
@@ -41,19 +42,8 @@ test:
     - pytest >=8.0.0,<9.0.0
     - freezegun>=1.2.2,<2.0.0
     - nltk >=3.9.1,<4.0.0
-    # Integration tests have dependency conflicts.
-    # - spacy >=3.8.7,<4.0.0  # [py<314]
-    ## transformers is not available for python 3.14
-    # - transformers >=4.51.3,<5.0.0  # [py<314]
-    # - sentence-transformers >=3.0.1,<4.0.0  # [py<314]
-    # - tiktoken >=0.8.0,<1.0.0  # [py<314]
-    # - scipy >=1.7.0,<2.0.0  # [py<313]
-    # - scipy >=1.14.1,<2.0.0  # [py>=313]
-    # 'en-core-web-sm' from spacy-models is required for the tests.
-    # - spacy-models
-    # lxml and bs4 are not mentioned in the dependencies, but it is required for the tests
-    - bs4
-    - lxml
+    - lxml >=4.9.3,<7.0.0
+    - beautifulsoup4 >=4.13.5,<5.0.0
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
