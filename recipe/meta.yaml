@@ -8,8 +8,6 @@ package:
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-','_') }}-{{ version }}.tar.gz
   sha256: 782a723db0a4746ac91e251c7c1d57fd23636e4f38ed733074e28d7a86f41627
-  patches:
-    - patches/0001-update-conftest.patch
 
 build:
   number: 0
@@ -40,15 +38,14 @@ test:
   requires:
     - pip
     - pytest >=8.0.0,<9.0.0
-    - freezegun>=1.2.2,<2.0.0
+    - freezegun >=1.2.2,<2.0.0
     - nltk >=3.9.1,<4.0.0
     - lxml >=4.9.3,<7.0.0
     - beautifulsoup4 >=4.13.5,<5.0.0
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v tests/unit_tests/  # [py<314]
-    - pytest -v tests --ignore=tests/integration_tests/test_text_splitter.py  # [py==314]
+    - pytest -vv tests/unit_tests/
 
 about:
   home: https://github.com/langchain-ai/langchain
